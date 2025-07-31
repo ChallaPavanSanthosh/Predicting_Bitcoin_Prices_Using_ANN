@@ -1,6 +1,6 @@
 from ANNClassifier.constants import *
 from ANNClassifier.utils.common import read_yaml, create_directories
-from ANNClassifier.entity.config_entity import DataIngestionConfig, PrepareBaseModelConfig
+from ANNClassifier.entity.config_entity import DataIngestionConfig, PrepareBaseModelConfig, ANNTrainingConfig
 
 
 class ConfigurationManager:
@@ -43,33 +43,33 @@ class ConfigurationManager:
             learning_rate=params['LEARNING_RATE'],
             model_save_dir=Path(config['root_dir'])
         )
-
-
     
-    # def get_ann_training_config(self) -> ANNTrainingConfig:
-    #     config = self.config.ann_training  # section in config.yaml
-    #     params = self.params
+    def get_ann_training_config(self) -> ANNTrainingConfig:
+        training = self.config['training']
+        prepare_base_model = self.config.prepare_base_model
+        params = self.params
 
-    #     create_directories([config.model_save_dir])
+        create_directories([training['root_dir']])
 
-    #     ann_training_config = ANNTrainingConfig(
-    #         root_dir=Path(config.root_dir),
-    #         data_file=Path(config.data_file),
-    #         model_save_dir=Path(config.model_save_dir),
-    #         project_name=config.project_name,
+        training_config = ANNTrainingConfig(
+            root_dir=Path(training['root_dir']),
+            data_file=Path(training['data_file']),
+            model_save_dir=Path(training['model_save_dir']),
+            trained_model_path=Path(training.trained_model_path),
+            updated_base_model_path=Path(prepare_base_model.base_model_path),
 
-    #         sample_size=params.SAMPLE_SIZE,
-    #         target_column=params.TARGET_COLUMN,
+            sample_size=params['SAMPLE_SIZE'],
+            target_column=params['TARGET_COLUMN'],
 
-    #         epochs_tuning=params.EPOCHS_TUNING,
-    #         epochs_final=params.EPOCHS_FINAL,
-    #         batch_size=params.BATCH_SIZE,
-    #         learning_rate=params.LEARNING_RATE,
+            epochs_tuning=params['EPOCHS_TUNING'],
+            epochs_final=params['EPOCHS_FINAL'],
+            batch_size=params['BATCH_SIZE'],
+            learning_rate=params['LEARNING_RATE'],
 
-    #         max_trials=params.MAX_TRIALS,
-    #         num_layers_range=params.NUM_LAYERS_RANGE,
-    #         units_range=params.UNITS_RANGE,
-    #         dropout_range=params.DROPOUT_RANGE
-    #     )
+            max_trials=params['MAX_TRIALS'],
+            num_layers_range=params['NUM_LAYERS_RANGE'],
+            units_range=params['UNITS_RANGE'],
+            dropout_range=params['DROPOUT_RANGE']
+        )
 
-    #     return ann_training_config
+        return training_config

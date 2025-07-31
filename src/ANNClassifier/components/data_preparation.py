@@ -1,7 +1,10 @@
+import os
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 import ta  # Technical Analysis library (ta-lib alternative)
+import pickle
+
 class DataPreparation:
     def __init__(self, file_path, sample_size=10000, target_column='Close'):
         self.file_path = file_path
@@ -50,5 +53,15 @@ class DataPreparation:
 
         X_train, X_temp, y_train, y_temp = train_test_split(X_scaled, y_scaled, test_size=0.3, shuffle=False)
         X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, shuffle=False)
+
+        # ✅ Save train/val data to .pkl
+        os.makedirs("artifacts/data_preparation", exist_ok=True)
+        with open("artifacts/data_preparation/train_val_data.pkl", "wb") as f:
+            pickle.dump({
+                "X_train": X_train,
+                "X_val": X_val,
+                "y_train": y_train,
+                "y_val": y_val
+            }, f)
 
         return X_train, X_val, X_test, y_train, y_val, y_test, scaler_y, X.shape[1]
