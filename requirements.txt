@@ -3,7 +3,6 @@ pandas
 matplotlib
 seaborn
 python-box
-tensorflow
 gdown
 dvc
 mlflow

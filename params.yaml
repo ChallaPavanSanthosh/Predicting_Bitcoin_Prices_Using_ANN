@@ -1,1 +1,15 @@
-key: val
+# General Training Parameters
+EPOCHS_TUNING: 30           # Epochs during hyperparameter tuning
+EPOCHS_FINAL: 100           # Epochs for training the best model
+BATCH_SIZE: 32              # You didn't specify this, but it's typical
+LEARNING_RATE: 0.001        # Used in Adam optimizer (default)
+
+# Keras Tuner Parameters
+MAX_TRIALS: 5               # Number of hyperparameter tuning trials
+NUM_LAYERS_RANGE: [2, 3]    # Number of dense layers
+UNITS_RANGE: [64, 128, 192, 256]  # Units per layer
+DROPOUT_RANGE: [0.1, 0.2, 0.3]    # Dropout values
+
+# Data Parameters
+SAMPLE_SIZE: 10000          # Subset of rows from full dataset for faster training
+TARGET_COLUMN: Close        # What we're predicting
