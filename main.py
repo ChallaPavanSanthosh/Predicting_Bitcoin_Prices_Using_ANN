@@ -8,7 +8,6 @@ from ANNClassifier.pipeline.stage_01_data_ingestion import DataIngestionTraining
 from ANNClassifier.pipeline.stage_02_data_preparation import DataPreparationTrainingPipeline
 from ANNClassifier.pipeline.stage_03_prepare_base_model import PrepareBaseModelTrainingPipeline
 from ANNClassifier.pipeline.stage_04_model_trainer import ModelTrainingPipeline
-# from ANNClassifier.pipeline.stage_03_model_trainer import ModelTrainingPipeline
 # from ANNClassifier.pipeline.stage_04_model_evaluation import EvaluationPipeline
 
 
