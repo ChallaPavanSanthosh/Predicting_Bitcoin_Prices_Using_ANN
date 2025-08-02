@@ -13,3 +13,4 @@ DROPOUT_RANGE: [0.1, 0.2, 0.3]    # Dropout values
 # Data Parameters
 SAMPLE_SIZE: 10000          # Subset of rows from full dataset for faster training
 TARGET_COLUMN: Close        # What we're predicting
+input_shape: 14

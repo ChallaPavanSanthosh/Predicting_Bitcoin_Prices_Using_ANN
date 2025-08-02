@@ -18,6 +18,10 @@ class PrepareBaseModelConfig:
     dropout_range: List[float]
     learning_rate: float
     model_save_dir: Path
+    input_shape: int
+
+    model_save_dir: Path
+    updated_base_model_path: Path
 
 @dataclass(frozen=True)
 class ANNTrainingConfig:
@@ -42,3 +46,15 @@ class ANNTrainingConfig:
     num_layers_range: List[int]
     units_range: List[int]
     dropout_range: List[float]
+
+
+
+@dataclass(frozen=True)
+class EvaluationConfig:
+    path_of_model: Path                 # Path to the trained .h5 model
+    training_data: Path                 # Path to train_val_data.pkl
+    all_params: dict                    # All hyperparameters
+    params_learning_rate: float
+    # mlflow_uri: str                     # URI for MLflow tracking
+    params_epochs: int                 # Number of epochs used
+    params_batch_size: int 

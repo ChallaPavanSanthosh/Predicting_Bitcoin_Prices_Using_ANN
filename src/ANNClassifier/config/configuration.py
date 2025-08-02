@@ -1,6 +1,6 @@
 from ANNClassifier.constants import *
-from ANNClassifier.utils.common import read_yaml, create_directories
-from ANNClassifier.entity.config_entity import DataIngestionConfig, PrepareBaseModelConfig, ANNTrainingConfig
+from ANNClassifier.utils.common import read_yaml, create_directories,save_json
+from ANNClassifier.entity.config_entity import DataIngestionConfig, PrepareBaseModelConfig, ANNTrainingConfig, EvaluationConfig
 
 
 class ConfigurationManager:
@@ -36,8 +36,10 @@ class ConfigurationManager:
         return PrepareBaseModelConfig(
             root_dir=config['root_dir'],
             base_model_path=config['base_model_path'],
-            updated_base_model_path=config['updated_base_model_path'],
+            updated_base_model_path=Path(config["updated_base_model_path"]),
+            # updated_base_model_path=config['updated_base_model_path'],
             num_layers_range=params['NUM_LAYERS_RANGE'],
+            input_shape=params["input_shape"],  # ✅ <-- Add this
             units_range=params['UNITS_RANGE'],
             dropout_range=params['DROPOUT_RANGE'],
             learning_rate=params['LEARNING_RATE'],
@@ -73,3 +75,17 @@ class ConfigurationManager:
         )
 
         return training_config
+    
+    def get_evaluation_config(self) -> EvaluationConfig:
+        training = self.config.training  # accessing the training block
+
+        eval_config = EvaluationConfig(
+            path_of_model=Path(training.trained_model_path),
+            training_data=Path(training.data_file),
+            # mlflow_uri="",  # empty or remove if MLflow not used
+            all_params=training,  # or self.config if you want to log everything
+            params_epochs=training.epochs_final,        # ✅ pulled from training block
+            params_batch_size=training.batch_size,      # ✅ pulled from training block
+            params_learning_rate=0.001                  # set manually if not present
+        )
+        return eval_config

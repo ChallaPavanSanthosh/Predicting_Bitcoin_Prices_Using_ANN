@@ -7,6 +7,8 @@ import pickle
 from pathlib import Path
 from ANNClassifier.entity.config_entity import DataIngestionConfig, PrepareBaseModelConfig, ANNTrainingConfig
 from tensorflow.keras.callbacks import ReduceLROnPlateau
+# from tensorflow.keras import Sequential
+# from tensorflow.keras.layers import Dense, Dropout
 
 
 class ANNModelTrainer:

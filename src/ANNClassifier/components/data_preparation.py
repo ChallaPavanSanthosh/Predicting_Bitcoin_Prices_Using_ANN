@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 import ta  # Technical Analysis library (ta-lib alternative)
 import pickle
