@@ -1,16 +1,36 @@
+# # General Training Parameters
+# EPOCHS_TUNING: 30           # Epochs during hyperparameter tuning
+# EPOCHS_FINAL: 100           # Epochs for training the best model
+# BATCH_SIZE: 32              # You didn't specify this, but it's typical
+# LEARNING_RATE: 0.001        # Used in Adam optimizer (default)
+
+# # Keras Tuner Parameters
+# MAX_TRIALS: 5               # Number of hyperparameter tuning trials
+# NUM_LAYERS_RANGE: [2, 3]    # Number of dense layers
+# UNITS_RANGE: [64, 128, 192, 256]  # Units per layer
+# DROPOUT_RANGE: [0.1, 0.2, 0.3]    # Dropout values
+
+# # Data Parameters
+# SAMPLE_SIZE: 10000          # Subset of rows from full dataset for faster training
+# TARGET_COLUMN: Close        # What we're predicting
+# INPUT_SHAPE: 5
+# input_shape: 14
+
 # General Training Parameters
-EPOCHS_TUNING: 30           # Epochs during hyperparameter tuning
-EPOCHS_FINAL: 100           # Epochs for training the best model
-BATCH_SIZE: 32              # You didn't specify this, but it's typical
-LEARNING_RATE: 0.001        # Used in Adam optimizer (default)
+EPOCHS_TUNING: 30
+EPOCHS_FINAL: 100
+# EPOCHS: 100
+BATCH_SIZE: 32
+LEARNING_RATE: 0.001
 
 # Keras Tuner Parameters
-MAX_TRIALS: 5               # Number of hyperparameter tuning trials
-NUM_LAYERS_RANGE: [2, 3]    # Number of dense layers
-UNITS_RANGE: [64, 128, 192, 256]  # Units per layer
-DROPOUT_RANGE: [0.1, 0.2, 0.3]    # Dropout values
+MAX_TRIALS: 5
+NUM_LAYERS_RANGE: [2, 3]
+UNITS_RANGE: [64, 128, 192, 256]
+DROPOUT_RANGE: [0.1, 0.2, 0.3]
 
 # Data Parameters
-SAMPLE_SIZE: 10000          # Subset of rows from full dataset for faster training
-TARGET_COLUMN: Close        # What we're predicting
-input_shape: 14
+SAMPLE_SIZE: 20000
+TARGET_COLUMN: Close
+INPUT_SHAPE: 14
+

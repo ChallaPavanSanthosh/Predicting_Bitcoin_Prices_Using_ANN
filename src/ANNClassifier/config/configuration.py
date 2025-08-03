@@ -39,7 +39,8 @@ class ConfigurationManager:
             updated_base_model_path=Path(config["updated_base_model_path"]),
             # updated_base_model_path=config['updated_base_model_path'],
             num_layers_range=params['NUM_LAYERS_RANGE'],
-            input_shape=params["input_shape"],  # ✅ <-- Add this
+            # input_shape=params["input_shape"],  # ✅ <-- Add this
+            input_shape=params["INPUT_SHAPE"],
             units_range=params['UNITS_RANGE'],
             dropout_range=params['DROPOUT_RANGE'],
             learning_rate=params['LEARNING_RATE'],
@@ -57,8 +58,11 @@ class ConfigurationManager:
             root_dir=Path(training['root_dir']),
             data_file=Path(training['data_file']),
             model_save_dir=Path(training['model_save_dir']),
-            trained_model_path=Path(training.trained_model_path),
-            updated_base_model_path=Path(prepare_base_model.base_model_path),
+            # trained_model_path=Path(training.trained_model_path),
+            trained_model_path=Path(training['trained_model_path']),
+            # updated_base_model_path=Path(prepare_base_model.base_model_path),
+            updated_base_model_path=Path(prepare_base_model['base_model_path']),
+
 
             sample_size=params['SAMPLE_SIZE'],
             target_column=params['TARGET_COLUMN'],

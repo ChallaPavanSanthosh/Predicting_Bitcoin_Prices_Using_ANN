@@ -57,8 +57,12 @@ class ANNModelTrainer:
         )
 
         self.save_model(
-            path=self.config.trained_model_path,
+            #path=self.config.trained_model_path,
+            path=Path("artifacts/training/trained_model.h5"),
+
+            
             model=self.model
+            #training = self.training
         )
 
         print("✅ Model training complete. Model saved to:", self.config.trained_model_path)

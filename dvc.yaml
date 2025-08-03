@@ -1,0 +1,57 @@
+stages:
+  data_ingestion:
+    cmd: python src/ANNClassifier/pipeline/stage_01_data_ingestion.py
+    deps:
+      - src/ANNClassifier/pipeline/stage_01_data_ingestion.py
+      - config/config.yaml
+    outs:
+      - artifacts/data_ingestion/data.csv
+
+  data_preparation:
+    cmd: python src/ANNClassifier/pipeline/stage_02_data_preparation.py
+    deps:
+      - src/ANNClassifier/pipeline/stage_02_data_preparation.py
+      - artifacts/data_ingestion/data.csv
+      - config/config.yaml
+    outs:
+      - artifacts/data_preparation/train_val_data.pkl
+      - artifacts/input_dim.json
+
+  prepare_base_model:
+    cmd: python src/ANNClassifier/pipeline/stage_03_prepare_base_model.py
+    deps:
+      - src/ANNClassifier/pipeline/stage_03_prepare_base_model.py
+      - artifacts/input_dim.json
+      - config/config.yaml
+    params:
+      - LEARNING_RATE
+      - INPUT_SHAPE
+    outs:
+      - artifacts/prepare_base_model/base_model.h5
+
+  training:
+    cmd: python src/ANNClassifier/pipeline/stage_04_model_trainer.py
+    deps:
+      - src/ANNClassifier/pipeline/stage_04_model_trainer.py
+      - artifacts/prepare_base_model/base_model.h5
+      - artifacts/data_preparation/train_val_data.pkl
+      - config/config.yaml
+    params:
+      # - EPOCHS
+      - EPOCHS_FINAL
+      - BATCH_SIZE
+    outs:
+      - artifacts/training/trained_model.h5
+
+  evaluation:
+    cmd: python src/ANNClassifier/pipeline/stage_05_model_evaluation.py
+    deps:
+      - src/ANNClassifier/pipeline/stage_05_model_evaluation.py
+      - artifacts/training/trained_model.h5
+      - artifacts/data_preparation/train_val_data.pkl
+      - config/config.yaml
+    outs:
+      - artifacts/plots/actual_vs_predicted.png
+    metrics:
+      - artifacts/scores.json:
+          cache: false

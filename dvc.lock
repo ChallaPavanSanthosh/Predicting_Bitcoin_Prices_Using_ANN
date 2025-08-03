@@ -1,0 +1,122 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/ANNClassifier/pipeline/stage_01_data_ingestion.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 515fd0e4696606e00d06b5f79576eb80
+      size: 815
+    - path: src/ANNClassifier/pipeline/stage_01_data_ingestion.py
+      hash: md5
+      md5: 9f3a73e7ffeb1e0f99152ea6c549a423
+      size: 1283
+    outs:
+    - path: artifacts/data_ingestion/data.csv
+      hash: md5
+      md5: cf0c7e0c42beac2d3146ae2c84a15a41
+      size: 369200251
+  data_preparation:
+    cmd: python src/ANNClassifier/pipeline/stage_02_data_preparation.py
+    deps:
+    - path: artifacts/data_ingestion/data.csv
+      hash: md5
+      md5: cf0c7e0c42beac2d3146ae2c84a15a41
+      size: 369200251
+    - path: config/config.yaml
+      hash: md5
+      md5: 515fd0e4696606e00d06b5f79576eb80
+      size: 815
+    - path: src/ANNClassifier/pipeline/stage_02_data_preparation.py
+      hash: md5
+      md5: 050ef1ec1e11ef7bdccd280c6aff5085
+      size: 1591
+    outs:
+    - path: artifacts/data_preparation/train_val_data.pkl
+      hash: md5
+      md5: ae3affbcda9d8b9fd4a8ead238fafa2e
+      size: 2040328
+    - path: artifacts/input_dim.json
+      hash: md5
+      md5: 027b0136aa05356020b8807e16bf1644
+      size: 17
+  prepare_base_model:
+    cmd: python src/ANNClassifier/pipeline/stage_03_prepare_base_model.py
+    deps:
+    - path: artifacts/input_dim.json
+      hash: md5
+      md5: 027b0136aa05356020b8807e16bf1644
+      size: 17
+    - path: config/config.yaml
+      hash: md5
+      md5: 515fd0e4696606e00d06b5f79576eb80
+      size: 815
+    - path: src/ANNClassifier/pipeline/stage_03_prepare_base_model.py
+      hash: md5
+      md5: b74a3034c0ebd870e7cda8b8a5d86a22
+      size: 2762
+    params:
+      params.yaml:
+        INPUT_SHAPE: 14
+        LEARNING_RATE: 0.001
+    outs:
+    - path: artifacts/prepare_base_model/base_model.h5
+      hash: md5
+      md5: 182baefd1d03bb22c5a576407d9a3809
+      size: 61216
+  training:
+    cmd: python src/ANNClassifier/pipeline/stage_04_model_trainer.py
+    deps:
+    - path: artifacts/data_preparation/train_val_data.pkl
+      hash: md5
+      md5: ae3affbcda9d8b9fd4a8ead238fafa2e
+      size: 2040328
+    - path: artifacts/prepare_base_model/base_model.h5
+      hash: md5
+      md5: 182baefd1d03bb22c5a576407d9a3809
+      size: 61216
+    - path: config/config.yaml
+      hash: md5
+      md5: 515fd0e4696606e00d06b5f79576eb80
+      size: 815
+    - path: src/ANNClassifier/pipeline/stage_04_model_trainer.py
+      hash: md5
+      md5: 58b7efe522293c71057e5023899d4b9b
+      size: 1315
+    params:
+      params.yaml:
+        BATCH_SIZE: 32
+        EPOCHS_FINAL: 100
+    outs:
+    - path: artifacts/training/trained_model.h5
+      hash: md5
+      md5: 9fe03a8bcd5c990dc456cac8f54051f0
+      size: 155400
+  evaluation:
+    cmd: python src/ANNClassifier/pipeline/stage_05_model_evaluation.py
+    deps:
+    - path: artifacts/data_preparation/train_val_data.pkl
+      hash: md5
+      md5: ae3affbcda9d8b9fd4a8ead238fafa2e
+      size: 2040328
+    - path: artifacts/training/trained_model.h5
+      hash: md5
+      md5: 9fe03a8bcd5c990dc456cac8f54051f0
+      size: 155400
+    - path: config/config.yaml
+      hash: md5
+      md5: 515fd0e4696606e00d06b5f79576eb80
+      size: 815
+    - path: src/ANNClassifier/pipeline/stage_05_model_evaluation.py
+      hash: md5
+      md5: 0aa8325ab6991cf7c095fbc6fbd39147
+      size: 1053
+    outs:
+    - path: artifacts/plots/actual_vs_predicted.png
+      hash: md5
+      md5: b0115c654f669230515547f76faa5940
+      size: 36306
+    - path: artifacts/scores.json
+      hash: md5
+      md5: 75c590c499400189fa0cdb87a300bef8
+      size: 141
